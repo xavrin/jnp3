@@ -1,0 +1,6 @@
+Django==1.7.2
+django-db-parti==0.3.3
+ipython==2.3.1
+psycopg2==2.5.4
+python-memcached==1.53
+wsgiref==0.1.2
