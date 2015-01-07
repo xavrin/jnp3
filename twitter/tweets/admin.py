@@ -2,6 +2,7 @@ from django.contrib import admin
 from tweets import models
 from dbparti import admin as pt_admin
 
+
 class TweetAdmin(pt_admin.PartitionableAdmin):
     partition_show = 'all'
 

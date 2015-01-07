@@ -36,6 +36,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'tweets',
     'dbparti',
 )
@@ -63,7 +64,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'jnp3-0',
         'USER': 'jnp3',
-        'PASSWORD': '',
+        'PASSWORD': 'a',
         'HOST': '127.0.0.1',
         'POST': '5432'
     }
