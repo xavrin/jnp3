@@ -4,7 +4,6 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 from dbparti import models as pt_models
-from social.apps.django_app.default import models as social_models
 
 
 class TwitterUser(models.Model):
@@ -12,7 +11,7 @@ class TwitterUser(models.Model):
     # also avatar
 
     def __unicode__(self):
-        return unicode(self.user)
+        return unicode(self.user.username)
 
 
 class Following(models.Model):

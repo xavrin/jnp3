@@ -1,5 +1,14 @@
 from django.conf.urls import patterns, include, url
-from django.contrib import admin
+
+from rest_framework import routers
+
+import tweets.views as views
+
+
+router = routers.SimpleRouter()
+
+router.register(r'tweets', views.TweetViewSet)
+router.register(r'twitterusers', views.TwitterUserViewSet)
 
 urlpatterns = patterns(
     'tweets.views',
@@ -7,3 +16,5 @@ urlpatterns = patterns(
     url('', include('django.contrib.auth.urls', namespace='auth')),
     url(r'^home$', 'home', name='home'),
 )
+
+urlpatterns += patterns('', url(r'^rest/', include(router.urls)))

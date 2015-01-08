@@ -37,6 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'social.apps.django_app.default',
+    'rest_framework',
     'tweets',
     'dbparti',
 )
@@ -108,6 +109,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'social.apps.django_app.context_processors.login_redirect',
 )
 
+
 AUTHENTICATION_BACKENDS = (
     'social.backends.google.GoogleOAuth2',
     'django.contrib.auth.backends.ModelBackend',
@@ -117,3 +119,11 @@ LOGIN_REDIRECT_URL = '/'
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '693285409772-as8cjvfiv2e1j53rmucd570rkh8310jn.apps.googleusercontent.com'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'tbX95UFcwcxwWXCV-2WWngqP'
+
+
+REST_FRAMEWORK = {
+    'PAGINATE_BY': 10,  # Default to 10
+    'PAGINATE_BY_PARAM': 'page_size',   # Allow client to
+                                        # override, using `?page_size=xxx`.
+    'MAX_PAGINATE_BY': 100  # Maximum limit allowed when using `?page_size=xxx`.
+}
