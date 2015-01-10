@@ -6,6 +6,8 @@
     <link href="{% static "googleButton.css" %}" rel="stylesheet">
 {% endblock %}
 
+{% block title %}<title>Twitter</title>{% endblock %}
+
 {% block navbar-right %}
 
     {% if user and not user.is_anonymous %}
@@ -26,4 +28,16 @@
         </a>
     {% endif %}
 
+{% endblock %}
+
+
+{% block content %}
+    <ul>
+    {% for result in search_results %}
+        <li>
+            {{result.content}}
+            {{result.author}}
+        </li>
+    {% endfor %}
+    </ul>
 {% endblock %}
