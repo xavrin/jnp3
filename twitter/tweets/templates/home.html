@@ -29,15 +29,3 @@
     {% endif %}
 
 {% endblock %}
-
-
-{% block content %}
-    <ul>
-    {% for result in search_results %}
-        <li>
-            {{result.content}}
-            {{result.author}}
-        </li>
-    {% endfor %}
-    </ul>
-{% endblock %}
