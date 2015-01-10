@@ -37,9 +37,10 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'social.apps.django_app.default',
+    'djorm_pgfulltext',
     'rest_framework',
-    'tweets',
     'dbparti',
+    'tweets',
 )
 
 MIDDLEWARE_CLASSES = (

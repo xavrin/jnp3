@@ -4,6 +4,8 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 from dbparti import models as pt_models
+from djorm_pgfulltext.fields import VectorField
+from djorm_pgfulltext.models import SearchManager
 
 
 class TwitterUser(models.Model):
@@ -11,7 +13,7 @@ class TwitterUser(models.Model):
     # also avatar
 
     def __unicode__(self):
-        return unicode(self.user.username)
+        return unicode(self.user)
 
 
 class Following(models.Model):
@@ -26,6 +28,15 @@ class Tweet(pt_models.Partitionable):
     author = models.ForeignKey(TwitterUser)
     created = models.DateTimeField('date of publication')
     content = models.CharField(max_length=140)
+
+    search_index = VectorField()
+
+    objects = SearchManager(
+        fields=('content',),
+        config='pg_catalog.english',  # this is default
+        search_field='search_index',  # this is default
+        auto_update_search_field=True
+    )
 
     class Meta(pt_models.Partitionable.Meta):
         partition_type = 'range'
