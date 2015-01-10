@@ -126,5 +126,14 @@ REST_FRAMEWORK = {
     'PAGINATE_BY': 10,  # Default to 10
     'PAGINATE_BY_PARAM': 'page_size',   # Allow client to
                                         # override, using `?page_size=xxx`.
-    'MAX_PAGINATE_BY': 100  # Maximum limit allowed when using `?page_size=xxx`.
+    'MAX_PAGINATE_BY': 100,  # Maximum limit allowed when using `?page_size=xxx`.
+
+    'DEFAULT_THROTTLE_CLASSES': (
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle'
+    ),
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '10/min',
+        'user': '100/min'
+    }
 }
