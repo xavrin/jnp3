@@ -9,7 +9,7 @@ from djorm_pgfulltext.models import SearchManager
 
 
 class TwitterUser(models.Model):
-    user = models.ForeignKey(auth_models.User)
+    user = models.OneToOneField(auth_models.User)
     # also avatar
 
     def __unicode__(self):

@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Create your tweet!</h1>
+
+<form method="post" action="{% url 'create_tweet' %}">
+    {% include "form.html" %}
+    <input class="btn btn-primary" type="submit" value="Add" />
+</form>
+
+{% endblock %}
