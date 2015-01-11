@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+    <h1>Sorry, you can't do that</h1>
+    <p>You're already logged in!</p>
+{% else %}
+    {% if form.errors %}
+    <p>Your username and password didn't match. Please try again.</p>
+    {% endif %}
+
+    <h1>Log in to use our site</h1>
+
+    <form method="post" action="{% url 'login' %}">
+        {% include "form.html" %}
+        <input class="btn btn-primary" type="submit" value="Login" />
+        <input type="hidden" name="next" value="{{ next }}" />
+    </form>
+{% endif %}
+
+{% endblock %}

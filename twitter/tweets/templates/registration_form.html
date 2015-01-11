@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+{% if user.is_authenticated %}
+    <h1>Sorry, you can't do that</h1>
+    <p>You're already logged in!</p>
+{% else %}
+    <h1>Register</h1>
+    <form method="post" action="">
+        {% include "form.html" %}
+    <input class="btn btn-primary" type="submit" value="Register" />
+    </form>
+{% endif %}
+
+{% endblock %}

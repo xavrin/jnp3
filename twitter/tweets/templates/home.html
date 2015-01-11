@@ -1,31 +1,9 @@
 {% extends 'base.html' %}
-{% load staticfiles %}
 
-{% block head %}
-    {{ block.super }}
-    <link href="{% static "googleButton.css" %}" rel="stylesheet">
-{% endblock %}
-
-{% block title %}<title>Twitter</title>{% endblock %}
-
-{% block navbar-right %}
-
-    {% if user and not user.is_anonymous %}
-        <p class="navbar-text">
-            Signed in as {{ user.get_full_name|default:user.username }}
-        </p>
-
-        <a href="{% url 'auth:logout' %}?next={{ request.path }}">
-            <button class="btn btn-primary navbar-btn logout-button">
-                Sign out
-            </button>
-        </a>
-    {% else %}
-        <a href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}">
-            <div class="sign-in-google">
-                Sign in with google.
-            </div>
-        </a>
-    {% endif %}
-
+{% block content %}
+{% if user.is_authenticated %}
+    <h2>Hello!</h2>
+{% else %}
+    <h2> Welcome to Twitter!</h2>
+{% endif %}
 {% endblock %}
