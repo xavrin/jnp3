@@ -80,7 +80,7 @@ class HomeView(ListView):
     model = Tweet
 
     def get_queryset(self):
-        user = TwitterUser.objects.get(pk=self.request.user.pk)
+        user = self.request.user.twitteruser
         followees = Following.objects.filter(follower=user).values('followee')
         return Tweet.objects.filter(author__in=followees).order_by('-created')
 
