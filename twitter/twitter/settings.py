@@ -7,6 +7,7 @@ https://docs.djangoproject.com/en/1.7/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.7/ref/settings/
 """
+import datetime
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
@@ -39,6 +40,7 @@ INSTALLED_APPS = (
     'social.apps.django_app.default',
     'djorm_pgfulltext',
     'rest_framework',
+    'axes',
     'dbparti',
     'tweets',
 )
@@ -51,6 +53,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'axes.middleware.FailedLoginMiddleware'
 )
 
 ROOT_URLCONF = 'twitter.urls'
@@ -110,6 +113,9 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'social.apps.django_app.context_processors.login_redirect',
 )
 
+TEMPLATE_DIRS = (
+    os.path.join(BASE_DIR, 'tweets/templates'),
+)
 
 AUTHENTICATION_BACKENDS = (
     'social.backends.google.GoogleOAuth2',
@@ -137,3 +143,9 @@ REST_FRAMEWORK = {
         'user': '100/min'
     }
 }
+
+
+AXES_LOGIN_FAILURE_LIMIT = 10
+AXES_COOLOFF_TIME = datetime.timedelta(minutes=5)
+AXES_LOCK_OUT_AT_FAILURE = True
+AXES_LOCKOUT_TEMPLATE = 'lockout.html'
