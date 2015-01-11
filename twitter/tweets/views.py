@@ -10,7 +10,7 @@ from django.contrib.auth.models import User
 from rest_framework import viewsets
 from registration.backends.simple.views import RegistrationView
 import datetime
-
+from django.http import HttpResponse
 from tweets.models import Tweet, TwitterUser
 from tweets.serializers import TweetSerializer, TwitterUserSerializer
 
@@ -26,6 +26,19 @@ class TweetCreateView(CreateView):
         tweet.author = self.request.user.twitteruser
         tweet.save()
         return redirect('show_tweet', pk=tweet.pk)
+
+def search(request):
+    errors = []
+    if 'username' in request.GET:
+        username = request.GET['username']
+        if not username:
+            errors.append('Enter a search term.')
+        else:
+            users = TwitterUser.objects.filter(user__username__icontains = username)
+            return render(request, 'search_results.html',
+                {'users': users, 'query': username})
+    return render(request, 'search.html',
+        {'errors': errors})
 
 
 class TweetDetailView(DetailView):

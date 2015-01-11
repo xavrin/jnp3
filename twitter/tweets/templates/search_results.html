@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h3>You searched for: <strong>{{ query }}</strong></h3>
+
+{% if users %}
+    <h3>Found {{ users|length }} user{{ users|pluralize }}.</h3>
+    <ul class="list-group">
+        {% for user in users %}
+            <strong><a href="{% url 'profile' user.pk %}" class="list-group-item">{{ user }}</a></strong>
+        {% endfor %}
+    </ul>
+{% else %}
+    <h3>No users matched your search criteria.</h3>
+{% endif %}
+
+{% endblock %}
+
+

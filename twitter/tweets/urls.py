@@ -23,6 +23,8 @@ urlpatterns = patterns(
         {'template_name': 'logout.html'}, name='logout'),
     url(r'^create_tweet', login_required(views.TweetCreateView.as_view()),
         name='create_tweet'),
+    url(r'^search', login_required(views.search),
+        name='search'),
     url(r'^show_tweet/(?P<pk>\d+)/$', login_required(views.TweetDetailView.as_view()),
         name="show_tweet"),
     url(r'^user_profile/(?P<pk>\d+)/$', login_required(views.UserTweetsView.as_view()),
