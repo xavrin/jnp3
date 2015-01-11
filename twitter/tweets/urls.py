@@ -14,7 +14,7 @@ router.register(r'tweets', views.TweetViewSet)
 router.register(r'twitterusers', views.TwitterUserViewSet)
 
 urlpatterns = patterns(
-    'tweets.views',
+    '',
     url('', include('social.apps.django_app.urls', namespace='social')),
     url(r'^home$', views.HomeView.as_view(), name='home'),
     url(r'^login/$', login,
@@ -30,6 +30,8 @@ urlpatterns = patterns(
     url(r'^user_profile/(?P<pk>\d+)/$', login_required(views.UserTweetsView.as_view()),
         name="profile"),
     url(r'^register/$', views.RegistrationURLView.as_view(), name='register'),
+    url(r'^user_profile/(?P<pk>\d+)/follow/$', login_required(views.follow), name='follow'),
+    url(r'^user_profile/(?P<pk>\d+)/unfollow/$', login_required(views.unfollow), name='unfollow'),
 )
 
 urlpatterns += patterns('', url(r'^rest/', include(router.urls)))

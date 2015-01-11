@@ -1,17 +1,20 @@
+from django.core.urlresolvers import reverse
+from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
+from django.http.response import HttpResponse
 from django.shortcuts import render, render_to_response, redirect
 from django.template.context import RequestContext
 from django.views.generic import TemplateView
 from django.views.generic import CreateView
 from django.views.generic import DetailView
 from django.views.generic import ListView
-from django.core.urlresolvers import reverse
-from django.contrib.auth.models import User
+import json
 
 from rest_framework import viewsets
 from registration.backends.simple.views import RegistrationView
 import datetime
-from django.http import HttpResponse
 from tweets.models import Tweet, TwitterUser, Following
+
 from tweets.serializers import TweetSerializer, TwitterUserSerializer
 
 
@@ -64,6 +67,9 @@ class UserTweetsView(ListView):
     def get_context_data(self, *args, **kwargs):
         context = super(UserTweetsView, self).get_context_data(*args, **kwargs)
         context['profile'] = TwitterUser.objects.get(pk=self.profile_pk)
+        followee = TwitterUser.objects.get(pk=self.profile_pk)
+        follower = TwitterUser.objects.get(user=self.request.user.pk)
+        context['following'] = Following.objects.filter(follower=follower.pk, followee=followee.pk).count() > 0
         return context
 
 
@@ -95,3 +101,38 @@ class TweetViewSet(viewsets.ModelViewSet):
 class TwitterUserViewSet(viewsets.ModelViewSet):
     queryset = TwitterUser.objects.all()
     serializer_class = TwitterUserSerializer
+
+
+def follow(request, pk):
+    result = {"success": False}
+
+    if request.POST:
+        if request.POST.get('user_to_follow'):
+            followee = (TwitterUser.objects.get(pk=int(json.loads(request.POST.get('user_to_follow')))))
+            follower = TwitterUser.objects.get(user=request.user.pk)
+            if (follower is not None and followee is not None and
+               Following.objects.filter(follower=follower.pk, followee=followee.pk).count() == 0):
+                new_following = Following(follower=follower, followee=followee)
+                new_following.save()
+                result["success"] = True
+
+    result = json.dumps(result)
+    return HttpResponse(result, 'aplication/json')
+
+
+def unfollow(request, pk):
+    result = {"success": False}
+
+    if request.POST:
+        if request.POST.get('user_to_follow'):
+            followee = (TwitterUser.objects.get(pk=int(json.loads(request.POST.get('user_to_follow')))))
+            follower = TwitterUser.objects.get(user=request.user.pk)
+            if (follower is not None and followee is not None and
+               Following.objects.filter(follower=follower.pk, followee=followee.pk).count() == 1):
+                new_following = Following.objects.get(follower=follower.pk, followee=followee.pk)
+                new_following.delete()
+                result["success"] = True
+
+    result = json.dumps(result)
+    return HttpResponse(result, 'aplication/json')
+
