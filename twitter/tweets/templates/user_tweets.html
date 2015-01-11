@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{{ profile.user.get_full_name|default:profile.user.username }}</h1>
+    {% if tweets %}
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th style="width:20%;text-align:center">Date</th>
+                    <th style="width:80%;text-align:center">Content</th>
+                </tr>
+
+            </thead>
+            <tbody>
+                {% for tweet in tweets %}
+                    <tr>
+                        <td>{{ tweet.created }}</td>
+                        <td>{{ tweet.content }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% if is_paginated %}
+            <div class="row">
+                <div class="col-lg-2 col-lg-offset-3">
+                    {% if page_obj.has_previous %}
+                        <a class="btn btn-primary" href="{% url 'profile' profile.pk %}?page={{ page_obj.previous_page_number }}">previous</a>
+                    {% endif %}
+                </div>
+                <div class="col-lg-2">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </div>
+                <div class="col-lg-2">
+                    {% if page_obj.has_next %}
+                        <a class="btn btn-primary" href="{% url 'profile' profile.pk %}?page={{ page_obj.next_page_number }}">next</a>
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+    {% else %}
+        <p>This user doesn't have any tweets yet.</p>
+    {% endif %}
+{% endblock %}

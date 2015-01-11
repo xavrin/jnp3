@@ -25,6 +25,8 @@ urlpatterns = patterns(
         name='create_tweet'),
     url(r'^show_tweet/(?P<pk>\d+)/$', login_required(views.TweetDetailView.as_view()),
         name="show_tweet"),
+    url(r'^user_profile/(?P<pk>\d+)/$', login_required(views.UserTweetsView.as_view()),
+        name="profile"),
     url(r'^register/$', views.RegistrationURLView.as_view(), name='register'),
 )
 

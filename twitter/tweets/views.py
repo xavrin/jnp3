@@ -3,7 +3,9 @@ from django.template.context import RequestContext
 from django.views.generic import TemplateView
 from django.views.generic import CreateView
 from django.views.generic import DetailView
+from django.views.generic import ListView
 from django.core.urlresolvers import reverse
+from django.contrib.auth.models import User
 
 from rest_framework import viewsets
 from registration.backends.simple.views import RegistrationView
@@ -30,6 +32,26 @@ class TweetDetailView(DetailView):
     template_name = "tweet_detail.html"
     model = Tweet
     context_object_name = "tweet"
+
+
+class UserTweetsView(ListView):
+    context_object_name = 'tweets'
+    template_name = 'user_tweets.html'
+    paginate_by = 4
+    model = Tweet
+
+    def get(self, request, *args, **kwargs):
+        self.profile_pk = self.kwargs['pk']
+        return super(UserTweetsView, self).get(request, *args, **kwargs)
+
+    def get_queryset(self):
+        user = TwitterUser.objects.get(pk=self.profile_pk)
+        return Tweet.objects.filter(author=user)
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(UserTweetsView, self).get_context_data(*args, **kwargs)
+        context['profile'] = TwitterUser.objects.get(pk=self.profile_pk)
+        return context
 
 
 class HomeView(TemplateView):
