@@ -17,3 +17,10 @@ table.paleblue th {
     height: 32px;
     margin: 9px 0 9px 5px;
 }
+
+.follow {
+    width: 187px;
+    height: 32px;
+    margin: 9px auto;
+    text-align: center;
+}
