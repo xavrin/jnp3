@@ -11,7 +11,7 @@ from rest_framework import viewsets
 from registration.backends.simple.views import RegistrationView
 import datetime
 from django.http import HttpResponse
-from tweets.models import Tweet, TwitterUser
+from tweets.models import Tweet, TwitterUser, Following
 from tweets.serializers import TweetSerializer, TwitterUserSerializer
 
 
@@ -67,8 +67,17 @@ class UserTweetsView(ListView):
         return context
 
 
-class HomeView(TemplateView):
+class HomeView(ListView):
+    context_object_name = 'tweets'
     template_name = 'home.html'
+    paginate_by = 4
+    model = Tweet
+
+    def get_queryset(self):
+        user = TwitterUser.objects.get(pk=self.request.user.pk)
+        followees = Following.objects.filter(follower=user).values('followee')
+        return Tweet.objects.filter(author__in=followees).order_by('-created')
+
 
 
 class RegistrationURLView(RegistrationView):
