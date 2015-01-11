@@ -5,18 +5,18 @@
     <h1>{{ profile.user.get_full_name|default:profile.user.username }}</h1>
     {% if not user.is_anonymous and user.pk != profile.user.pk %}
         <div id="loader" style="display:none"><img src="{% static "images/ajax-loader.gif" %}"/></div>
-        <div class="alert alert-danger" style="display:none" id="followAlert">
+        <div class="alert alert-danger follow" style="display:none" id="followAlert">
             Sorry, but some error accured. Try again later
         </div>
-        <div class="alert alert-success" style="display:none" id="followSuccess">
+        <div class="alert alert-success follow" style="display:none" id="followSuccess">
             Success
         </div>
         {% if not following %}
-            <button class="btn btn-success" id="followButton">
+            <button class="btn btn-success follow" id="followButton">
                 Follow
             </button>
         {% else %}
-            <button class="btn btn-danger" id="unFollowButton">
+            <button class="btn btn-danger follow" id="unFollowButton">
                 Unfollow
             </button>
         {% endif %}
