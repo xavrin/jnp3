@@ -23,7 +23,7 @@ urlpatterns = patterns(
         {'template_name': 'login.html'}, name='login'),
     url(r'^logout/$', logout,
         {'template_name': 'logout.html'}, name='logout'),
-    url(r'^create_tweet', cache_page(60 * 60)(login_required(views.TweetCreateView.as_view())),
+    url(r'^create_tweet', login_required(views.TweetCreateView.as_view()),
         name='create_tweet'),
     url(r'^search', login_required(views.search),
         name='search'),
