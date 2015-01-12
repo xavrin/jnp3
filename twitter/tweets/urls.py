@@ -32,6 +32,7 @@ urlpatterns = patterns(
         name="profile"),
     url(r'^register/$', views.RegistrationURLView.as_view(), name='register'),
     url(r'^user_profile/(?P<pk>\d+)/follow/$', login_required(views.follow), name='follow'),
+    url(r'^user_profile/(?P<pk>\d+)/delete_tweet/$', login_required(views.delete_tweet), name='delete_tweet'),
     url(r'^user_profile/(?P<pk>\d+)/unfollow/$', login_required(views.unfollow), name='unfollow'),
 )
 

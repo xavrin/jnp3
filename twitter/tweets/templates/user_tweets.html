@@ -27,6 +27,7 @@
             <tr>
                 <th style="width:20%;text-align:center">Date</th>
                 <th style="width:80%;text-align:center">Content</th>
+                <th style="width:80%;text-align:center"></th>
             </tr>
 
             </thead>
@@ -35,6 +36,9 @@
                 <tr>
                     <td>{{ tweet.created }}</td>
                     <td>{{ tweet.content }}</td>
+                    {% if not user.is_anonymous and user.pk == profile.user.pk %}
+                        <td><button class="btn btn-danger follow" name="deleteTweet" id="{{ tweet.pk }}">delete</button></td>
+                    {% endif %}
                 </tr>
             {% endfor %}
             </tbody>
@@ -164,6 +168,26 @@
                         .always(function () {
                             console.log("complete");
                             $("#loader").hide();
+                        });
+            });
+            var deleteButtons = $("button[name='deleteTweet']");
+            console.log(deleteButtons);
+            deleteButtons.click(function () {
+                var id = this.id;
+                console.log("IN button");
+
+                $.ajax("delete_tweet/", {
+                    type: "POST",
+                    data: {'tweet': id}
+                })
+                        .done(function (data) {
+                        })
+                        .fail(function () {
+                            console.log("error");
+                        })
+                        .always(function () {
+                            console.log("complete");
+                            location.reload(true);
                         });
             });
         });
