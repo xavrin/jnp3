@@ -4,10 +4,10 @@
 
 <h1>{{ profile.user.get_full_name|default:profile.user.username }} {{ name }}</h1>
 
-{% if followers %}
+{% if follow_set %}
     <ul class="list-group">
-        {% for follower in followers %}
-            <strong><a href="{% url 'profile' follower.pk %}" class="list-group-item">{{ follower }}</a></strong>
+        {% for follow in follow_set %}
+            <strong><a href="{% url 'profile' follow.pk %}" class="list-group-item">{{ follow }}</a></strong>
         {% endfor %}
     </ul>
 {% else %}
