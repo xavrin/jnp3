@@ -104,7 +104,7 @@ class FollowersView(ListView):
     def get_queryset(self):
         user = TwitterUser.objects.get(pk=self.profile_pk)
         followers = Following.objects.filter(followee=user).values('follower')
-        return TwitterUser.objects.filter(user__in=followers)
+        return TwitterUser.objects.filter(pk__in=followers)
 
     def get_context_data(self, *args, **kwargs):
         context = super(FollowersView, self).get_context_data(*args, **kwargs)
@@ -126,7 +126,7 @@ class FolloweesView(ListView):
     def get_queryset(self):
         user = TwitterUser.objects.get(pk=self.profile_pk)
         followees = Following.objects.filter(follower=user).values('followee')
-        return TwitterUser.objects.filter(user__in=followees)
+        return TwitterUser.objects.filter(pk__in=followees)
 
     def get_context_data(self, *args, **kwargs):
         context = super(FolloweesView, self).get_context_data(*args, **kwargs)
