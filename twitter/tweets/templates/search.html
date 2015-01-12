@@ -25,4 +25,16 @@
     </div>
 </form>
 
+<h2>Search for tweets!</h2>
+
+<form method="get" action="{% url 'tweetSearch' %}">
+    <div class="input-group input-group-lg form-inline">
+        <span class="input-group-btn">
+            <button class="btn btn-primary" type="submit" value="Search"><span class="glyphicon glyphicon-search"></span>
+            </button>
+        </span>
+        <input type="text" class="form-control" placeholder="Search" name="search_query">
+    </div>
+</form>
+
 {% endblock %}

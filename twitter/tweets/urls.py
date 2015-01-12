@@ -17,6 +17,7 @@ urlpatterns = patterns(
     '',
     url('', include('social.apps.django_app.urls', namespace='social')),
     url(r'^home$', views.HomeView.as_view(), name='home'),
+    url(r'^tweet_search$', views.TweetSearchView.as_view(), name='tweetSearch'),
     url(r'^login/$', login,
         {'template_name': 'login.html'}, name='login'),
     url(r'^logout/$', logout,

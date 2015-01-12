@@ -30,6 +30,7 @@ class TweetCreateView(CreateView):
         tweet.save()
         return redirect('show_tweet', pk=tweet.pk)
 
+
 def search(request):
     errors = []
     if 'username' in request.GET:
@@ -84,6 +85,10 @@ class HomeView(ListView):
         followees = Following.objects.filter(follower=user).values('followee')
         return Tweet.objects.filter(author__in=followees).order_by('-created')
 
+    def get_context_data(self, *args, **kwargs):
+        context = super(HomeView, self).get_context_data(*args, **kwargs)
+        context['no_tweets_message'] = "There are no new tweets."
+        return context
 
 
 class RegistrationURLView(RegistrationView):
@@ -136,3 +141,20 @@ def unfollow(request, pk):
     result = json.dumps(result)
     return HttpResponse(result, 'aplication/json')
 
+
+class TweetSearchView(ListView):
+    context_object_name = 'tweets'
+    template_name = 'tweets.html'
+    paginate_by = 4
+    model = Tweet
+
+    def get_queryset(self):
+        search_query = ""
+        if self.request.GET:
+            search_query = self.request.GET.get('search_query')
+        return Tweet.objects.search(search_query)
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(TweetSearchView, self).get_context_data(*args, **kwargs)
+        context['no_tweets_message'] = "There are no results satisfying the given query :("
+        return context
