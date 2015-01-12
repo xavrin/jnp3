@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>{{ profile.user.get_full_name|default:profile.user.username }} {{ name }}</h1>
+
+{% if followers %}
+    <ul class="list-group">
+        {% for follower in followers %}
+            <strong><a href="{% url 'profile' follower.pk %}" class="list-group-item">{{ follower }}</a></strong>
+        {% endfor %}
+    </ul>
+{% else %}
+    <h3>{{ profile.user.get_full_name|default:profile.user.username }} doesn't have any {{ name }}.</h3>
+{% endif %}
+
+{% endblock %}
+
+
