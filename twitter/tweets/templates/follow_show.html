@@ -10,6 +10,23 @@
             <strong><a href="{% url 'profile' follow.pk %}" class="list-group-item">{{ follow }}</a></strong>
         {% endfor %}
     </ul>
+    {% if is_paginated %}
+        <div class="row">
+            <div class="col-lg-2 col-lg-offset-3">
+                {% if page_obj.has_previous %}
+                    <a class="btn btn-primary" href="{% url name profile.pk  %}?page={{ page_obj.previous_page_number }}">previous</a>
+                {% endif %}
+            </div>
+            <div class="col-lg-2">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </div>
+            <div class="col-lg-2">
+                {% if page_obj.has_next %}
+                    <a class="btn btn-primary" href="{% url name profile.pk  %}?page={{ page_obj.next_page_number }}">next</a>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
 {% else %}
     <h3>{{ profile.user.get_full_name|default:profile.user.username }} doesn't have any {{ name }}.</h3>
 {% endif %}
