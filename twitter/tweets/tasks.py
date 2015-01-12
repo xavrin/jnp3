@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 import httplib2
 import os
 import random
@@ -16,6 +17,7 @@ from oauth2client.file import Storage as CredentialStorage
 from oauth2client.tools import run as run_oauth2
 
 from tweets import models
+from celery import shared_task
 
 DIR = os.path.dirname(__file__)
 CLIENT_SECRETS_FILE = os.path.join(DIR, 'security/client_secrets.json')
@@ -41,7 +43,7 @@ def get_authenticated_service(scope):
     http = credentials.authorize(httplib2.Http())
     return discovery_build('storage', 'v1', http=http)
 
-
+@shared_task
 def upload_file_to_google_cloud(fil, twitteruser_pk):
     bucket_name = 'jnp3-bucket'
     object_name = '__avatar__{}'.format(twitteruser_pk)

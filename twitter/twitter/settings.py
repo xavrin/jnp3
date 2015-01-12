@@ -43,6 +43,7 @@ INSTALLED_APPS = (
     'axes',
     'dbparti',
     'tweets',
+    'kombu.transport.django',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -149,3 +150,5 @@ AXES_LOGIN_FAILURE_LIMIT = 10
 AXES_COOLOFF_TIME = datetime.timedelta(minutes=5)
 AXES_LOCK_OUT_AT_FAILURE = True
 AXES_LOCKOUT_TEMPLATE = 'lockout.html'
+
+BROKER_URL = 'django://'

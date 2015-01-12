@@ -29,3 +29,7 @@ Przed używaniem cache'a należy go włączyć, np. tak (w tle):
 ````bash
 memcached &
 ````
+Przed używaniem celery należy włączyć workera:
+````bash
+celery -A twitter worker -l info
+````

@@ -26,7 +26,7 @@ def upload_file(request):
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
-            upload_file_to_google_cloud(request.FILES['file'], request.user.twitteruser.pk)
+            upload_file_to_google_cloud.delay(request.FILES['file'], request.user.twitteruser.pk)
             return HttpResponseRedirect(reverse_lazy('home'))
     else:
         form = UploadFileForm()
