@@ -81,9 +81,12 @@ class HomeView(ListView):
     model = Tweet
 
     def get_queryset(self):
-        user = self.request.user.twitteruser
-        followees = Following.objects.filter(follower=user).values('followee')
-        return Tweet.objects.filter(author__in=followees).order_by('-created')
+        if self.request.user.is_authenticated():
+            user = self.request.user.twitteruser
+            followees = Following.objects.filter(follower=user).values('followee')
+            return Tweet.objects.filter(author__in=followees).order_by('-created')
+        else:
+            return Tweet.objects.none()
 
     def get_context_data(self, *args, **kwargs):
         context = super(HomeView, self).get_context_data(*args, **kwargs)
