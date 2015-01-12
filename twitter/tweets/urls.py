@@ -32,6 +32,8 @@ urlpatterns = patterns(
     url(r'^register/$', views.RegistrationURLView.as_view(), name='register'),
     url(r'^user_profile/(?P<pk>\d+)/follow/$', login_required(views.follow), name='follow'),
     url(r'^user_profile/(?P<pk>\d+)/unfollow/$', login_required(views.unfollow), name='unfollow'),
+    url(r'^update_profile/$', login_required(views.upload_file),
+        name="update_profile"),
 )
 
 urlpatterns += patterns('', url(r'^rest/', include(router.urls)))

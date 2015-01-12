@@ -1,9 +1,10 @@
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from django.http.response import HttpResponse
+from django.http.response import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, render_to_response, redirect
 from django.template.context import RequestContext
+from django.views.generic import FormView
 from django.views.generic import TemplateView
 from django.views.generic import CreateView
 from django.views.generic import DetailView
@@ -14,8 +15,23 @@ from rest_framework import viewsets
 from registration.backends.simple.views import RegistrationView
 import datetime
 from tweets.models import Tweet, TwitterUser, Following
+from tweets.forms import UploadFileForm
+from tweets.tasks import upload_file_to_google_cloud
 
 from tweets.serializers import TweetSerializer, TwitterUserSerializer
+
+
+def upload_file(request):
+    if request.method == 'POST':
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            upload_file_to_google_cloud(request.FILES['file'], request.user.twitteruser.pk)
+            return HttpResponseRedirect(reverse_lazy('home'))
+    else:
+        form = UploadFileForm()
+    return render_to_response('update_profile.html', {'form': form,
+                                                      'user': request.user},
+                              context_instance=RequestContext(request))
 
 
 class TweetCreateView(CreateView):

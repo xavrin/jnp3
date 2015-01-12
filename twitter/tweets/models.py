@@ -10,6 +10,7 @@ from djorm_pgfulltext.models import SearchManager
 
 class TwitterUser(models.Model):
     user = models.OneToOneField(auth_models.User)
+    avatar_url = models.TextField(null=True)
     # also avatar
 
     def __unicode__(self):

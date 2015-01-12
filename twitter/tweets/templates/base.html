@@ -37,6 +37,7 @@
                 <a class="navbar-brand" href="{% url 'home' %}">Twitter</a>
                 {% if user.is_authenticated %}
                     <a class="navbar-brand" href="{% url 'profile' user.twitteruser.pk %}">Profile</a>
+                    <a class="navbar-brand" href="{% url 'update_profile' %}">Update profile</a>
                     <a class="navbar-brand" href="{% url 'create_tweet' %}">Tweet</a>
                     <a class="navbar-brand" href="{% url 'search' %}">Search</a>
                 {% endif %}
