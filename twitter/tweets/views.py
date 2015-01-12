@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.http.response import HttpResponse
 from django.shortcuts import render, render_to_response, redirect
 from django.template.context import RequestContext
+from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.generic import TemplateView
 from django.views.generic import CreateView
 from django.views.generic import DetailView
@@ -155,6 +156,7 @@ class TwitterUserViewSet(viewsets.ModelViewSet):
     serializer_class = TwitterUserSerializer
 
 
+@ensure_csrf_cookie
 def follow(request, pk):
     result = {"success": False}
 
@@ -172,6 +174,7 @@ def follow(request, pk):
     return HttpResponse(result, 'aplication/json')
 
 
+@ensure_csrf_cookie
 def unfollow(request, pk):
     result = {"success": False}
 
@@ -183,6 +186,21 @@ def unfollow(request, pk):
                Following.objects.filter(follower=follower.pk, followee=followee.pk).count() == 1):
                 new_following = Following.objects.get(follower=follower.pk, followee=followee.pk)
                 new_following.delete()
+                result["success"] = True
+
+    result = json.dumps(result)
+    return HttpResponse(result, 'aplication/json')
+
+
+@ensure_csrf_cookie
+def delete_tweet(request, pk):
+    result = {"success": False}
+
+    if request.POST:
+        if request.POST.get('tweet'):
+            tweet = (Tweet.objects.get(pk=int(json.loads(request.POST.get('tweet')))))
+            if tweet is not None:
+                tweet.delete()
                 result["success"] = True
 
     result = json.dumps(result)
