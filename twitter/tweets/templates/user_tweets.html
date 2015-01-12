@@ -3,6 +3,10 @@
 
 {% block content %}
     <h1>{{ profile.user.get_full_name|default:profile.user.username }}</h1>
+    <div class="btn-group btn-group-justified">
+        <a href="{% url 'followers' profile.pk %}" class="btn btn-primary">Followers</a>
+        <a href="{% url 'followees' profile.pk %}" class="btn btn-primary">Followees</a>
+    </div>
     {% if not user.is_anonymous and user.pk != profile.user.pk %}
         <div id="loader" style="display:none"><img src="{% static "images/ajax-loader.gif" %}"/></div>
         <div class="alert alert-danger follow" style="display:none" id="followAlert">
@@ -59,7 +63,7 @@
             </div>
         {% endif %}
     {% else %}
-        <p>This user doesn't have any tweets yet.</p>
+        <h3>This user doesn't have any tweets yet.</h3>
     {% endif %}
 
 

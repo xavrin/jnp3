@@ -73,6 +73,50 @@ class UserTweetsView(ListView):
         return context
 
 
+class FollowersView(ListView):
+    context_object_name = 'followers'
+    template_name = 'follow_show.html'
+    paginate_by = 4
+    model = TwitterUser
+
+    def get(self, request, *args, **kwargs):
+        self.profile_pk = self.kwargs['pk']
+        return super(FollowersView, self).get(request, *args, **kwargs)
+
+    def get_queryset(self):
+        user = TwitterUser.objects.get(pk=self.profile_pk)
+        followers = Following.objects.filter(followee=user).values('follower')
+        return TwitterUser.objects.filter(user__in=followers)
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(FollowersView, self).get_context_data(*args, **kwargs)
+        context['profile'] = TwitterUser.objects.get(pk=self.profile_pk)
+        context['name'] = 'followers'
+        return context
+
+
+class FolloweesView(ListView):
+    context_object_name = 'followees'
+    template_name = 'follow_show.html'
+    paginate_by = 4
+    model = TwitterUser
+
+    def get(self, request, *args, **kwargs):
+        self.profile_pk = self.kwargs['pk']
+        return super(FolloweesView, self).get(request, *args, **kwargs)
+
+    def get_queryset(self):
+        user = TwitterUser.objects.get(pk=self.profile_pk)
+        followees = Following.objects.filter(follower=user).values('followee')
+        return TwitterUser.objects.filter(user__in=followees)
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(FolloweesView, self).get_context_data(*args, **kwargs)
+        context['profile'] = TwitterUser.objects.get(pk=self.profile_pk)
+        context['name'] = 'followees'
+        return context
+
+
 class HomeView(ListView):
     context_object_name = 'tweets'
     template_name = 'home.html'
