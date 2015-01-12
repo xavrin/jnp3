@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'rest_framework',
     'axes',
     'dbparti',
+    "compressor",
     'tweets',
     'kombu.transport.django',
 )
@@ -152,3 +153,13 @@ AXES_LOCK_OUT_AT_FAILURE = True
 AXES_LOCKOUT_TEMPLATE = 'lockout.html'
 
 BROKER_URL = 'django://'
+
+COMPRESS_ROOT = "tweets/static/compressed"
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder',
+)
+
+COMPRESS_ENABLED = True
