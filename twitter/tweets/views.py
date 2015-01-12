@@ -92,7 +92,7 @@ class UserTweetsView(ListView):
 
 
 class FollowersView(ListView):
-    context_object_name = 'followers'
+    context_object_name = 'follow_set'
     template_name = 'follow_show.html'
     paginate_by = 4
     model = TwitterUser
@@ -114,7 +114,7 @@ class FollowersView(ListView):
 
 
 class FolloweesView(ListView):
-    context_object_name = 'followees'
+    context_object_name = 'follow_set'
     template_name = 'follow_show.html'
     paginate_by = 4
     model = TwitterUser
