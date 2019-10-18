@@ -13,7 +13,7 @@ django-axes==1.3.8
 django-compressor==1.4
 django-db-parti==0.3.3
 django-registration==1.0
-djangorestframework==3.0.2
+djangorestframework==3.9.1
 djorm-ext-pgfulltext==0.10
 enum34==1.0.4
 gcs-oauth2-boto-plugin==1.8
